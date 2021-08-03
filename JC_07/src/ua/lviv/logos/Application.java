@@ -1,9 +1,27 @@
+/*
+ * Logos It academy test file
+ */
 package ua.lviv.logos;
 
 import java.util.Scanner;
 
+/**
+ * 
+ * @author Maria
+ * @since java 1.8
+ * @version 1.1
+ *
+ */
+
 public class Application {
 	
+	/**
+	 * @param no input params
+	 * @author Maria
+	 * @return null
+	 * @see java code convension
+	 * @implNote menu to select what to do with eneterd month
+	 */
 	static void menu()
 	{
 		System.out.println("Press 1 to ensure if such month exists");
@@ -18,23 +36,31 @@ public class Application {
 		System.out.println("Press 10 to show if month has pair days count");
 	}
 
-	public static void main(String[] args) {
+	public static void main (String[] args) throws WrongInputConsoleParametersException {
 		
 		System.out.println("Enter month: ");
-		
+		/** massive of all existed months */
 		Months [] monthMas = Months.values();
+		/** massive of all existed seasons */
 		Seasons [] seasonMas = Seasons.values();
+		// enter Month to check it
 		try (Scanner scan = new Scanner(System.in)) {
 			String month = scan.next().toUpperCase();
-			menu();
+			if (null != monthExists(month))
+			{
+				/** calling menu of what should we check */
+			    menu();
+			}
 			
 			while (true)
 			{
 				
 				switch (scan.next())
 				{
+				   
 				    case "1":
 					{
+						/** ensure if such month exists */
 						if (null != monthExists(month))
 						{
 						    System.out.println("Such month exists! ");
@@ -46,7 +72,8 @@ public class Application {
 
 					case "2":
 					{
-				        Months enteredMonth = monthExists(month);
+						/* ensure if such month exists */
+						Months enteredMonth = monthExists(month);
 						if (null != enteredMonth)
 						{
 							
@@ -64,7 +91,8 @@ public class Application {
 					}
 					case "3":
 					{
-				        Months enteredMonth = monthExists(month);
+						/* ensure if such month exists */
+						Months enteredMonth = monthExists(month);
 						if (null != enteredMonth)
 						{
 							
@@ -81,7 +109,8 @@ public class Application {
 					}
 					case "4":
 					{
-				        Months enteredMonth = monthExists(month);
+						/* ensure if such month exists */
+						Months enteredMonth = monthExists(month);
 						if (null != enteredMonth)
 						{
 							
@@ -98,7 +127,8 @@ public class Application {
 					}
 					case "5":
 					{
-				        Months enteredMonth = monthExists(month);
+						/* ensure if such month exists */
+						Months enteredMonth = monthExists(month);
 						if (null != enteredMonth)
 						{
 							
@@ -115,7 +145,8 @@ public class Application {
 					}
 					case "6":
 					{
-				        Months enteredMonth = monthExists(month);
+						/* ensure if such month exists */
+						Months enteredMonth = monthExists(month);
 						if (null != enteredMonth)
 						{
 							if (enteredMonth.getSeason().ordinal() == (seasonMas.length -1))
@@ -131,7 +162,8 @@ public class Application {
 					}
 					case "7":
 					{
-				        Months enteredMonth = monthExists(month);
+						/* ensure if such month exists */
+						Months enteredMonth = monthExists(month);
 						if (null != enteredMonth)
 						{
 							if (enteredMonth.getSeason().ordinal() == 0)
@@ -147,6 +179,7 @@ public class Application {
 					}
 					case "8":
 					{
+						/* show all months with pair days count */
 						String monthList = "";
 						for (Months m : Months.values())
 						{						    
@@ -158,6 +191,7 @@ public class Application {
 					}
 					case "9":
 					{
+						/* show all months with unpair days count */
 						String monthList = "";
 						for (Months m : Months.values())
 						{						    
@@ -169,6 +203,7 @@ public class Application {
 					}
 					case "10":
 					{
+						/** ensure if such month exists */
 						Months enteredMonth = monthExists(month);
 						if (null != enteredMonth)
 						{
@@ -190,20 +225,32 @@ public class Application {
 
 			}
 		}
+		catch (Exception e)
+		{
+			System.out.println("Problem while reading months   " + e);
+		}
 	}
-
-	private static Months monthExists(String month) {
+	
+	/**
+	 * 
+	 * @author Maria
+	 * @param month
+	 * @return Month from enum of Month if such exists in list
+	 * @throws WrongInputConsoleParametersException in case if entered month does not exist
+	 */
+	private static Months monthExists (String month)  throws  WrongInputConsoleParametersException{
 		Months monthElement = null;
-		monthElement = Months.valueOf(month);
+
 		for (Months m : Months.values())
 		{
-		    
 			if (m.name().equals(month))
-		    	monthElement	 =  m;				
-		
+		    	monthElement = m;					
 		}
 		if (null == monthElement)
-			System.out.println("Such month does not exist! ");
+		{
+			String message = "You've enetered incorrect month!";
+			throw new WrongInputConsoleParametersException(message);
+		}			
 		return monthElement;
 	}
 
